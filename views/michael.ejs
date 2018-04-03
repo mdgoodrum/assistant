@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Annyang</title>
+ <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+   <script>
+     if (annyang) {
+       // Let's define a command.
+       var commands = {
+         'skateboard': function() { 
+            alert('Congrats you have logged in!'); 
+          }
+       };
+       // This should be true
+       console.log(annyang.isListening())
+       // Add our commands to annyang
+       annyang.addCommands(commands);
+       // Start listening.
+       annyang.start();
+       annyang.addCallback('soundstart', function() {
+         console.log('sound detected');
+       });
+     }
+    </script>
+  </head>
+  <body>
+    <h1>Welcome Back! Please state your password Michael Goodrum.</h1>
+  </body>
+</html>

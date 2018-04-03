@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Annyang</title>
+ <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+   <script>
+     if (annyang) {
+       // Let's define a command.
+       var commands = {
+         'hello': function() { 
+            //alert('Hey! Which user is this?'); 
+            location.replace("/login")
+          }
+       };
+       // This should be true
+       console.log(annyang.isListening())
+       // Add our commands to annyang
+       annyang.addCommands(commands);
+       // Start listening.
+       annyang.start();
+       annyang.addCallback('soundstart', function() {
+         console.log('sound detected');
+       });
+     }
+    </script>
+  </head>
+  <body>
+    <h1>Welcome to the inteligent assistant, please say Log In when you are ready.</h1>
+  </body>
+</html>
