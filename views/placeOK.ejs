@@ -2,6 +2,27 @@
 <html>
 <head>
  <title>Jarvis</title>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+   <script>
+     if (annyang) {
+       // Let's define a command.
+       var commands = {
+          'logout': function() {
+            alert('Logout successful. See you next time!');
+            location.replace("/");
+          }
+       };
+       // This should be true
+       console.log(annyang.isListening())
+       // Add our commands to annyang
+       annyang.addCommands(commands);
+       // Start listening.
+       annyang.start();
+       annyang.addCallback('resultNoMatch', function(phrases) {
+        alert('Sorry, incorrect password');
+       });
+     }
+    </script>
   </head>
   <body>
     <h1>Your item has been successfully stored in zone {zone_number}.</h1>
