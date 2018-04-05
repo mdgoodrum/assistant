@@ -31,4 +31,7 @@ app.get('/placeOK', function(req, res) {
 app.get('/placeNotOK', function(req, res) {  
   res.render('placeNotOK', { title: 'Place Not OK page!' })
 });
+app.get('/logout', function(req, res) {  
+  res.render('logout', { title: 'Logout page!' })
+});
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
