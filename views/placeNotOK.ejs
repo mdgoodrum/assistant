@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Jarvis</title>
+ <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+   <script>
+     if (annyang) {
+       // Let's define a command.
+       var commands = {
+         'Yes': function() { 
+            alert('Great! Item successfully placed in zone {zone_number}. I have updated {zone_owner} of the transaction.');
+            //TODO: insert zone number
+            //TODO: update zone owner of transaction
+          }
+          'No': function() { 
+            alert('Ok, your zone is zone {number}');
+            //TODO: insert zone number
+          }
+       };
+       // This should be true
+       console.log(annyang.isListening())
+       // Add our commands to annyang
+       annyang.addCommands(commands);
+       // Start listening.
+       annyang.start();
+       annyang.addCallback('soundstart', function() {
+         console.log('sound detected');
+       });
+     }
+    </script>
+  </head>
+  <body>
+    <h1>Ooops that’s {user_name}’s area, did you mean to do that?</h1>
+    <!-- TODO: insert user name of zone owner -->
+  </body>
+</html>
