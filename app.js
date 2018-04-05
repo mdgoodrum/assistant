@@ -7,6 +7,18 @@ app.get('/', function(req, res) {
 app.get('/login', function(req, res) {  
   res.render('login', { title: 'Login page!' })
 });
+app.get('/sonikaPassword', function(req, res) {  
+  res.render('sonikaPassword', { title: 'Sonikas Password page!' })
+});
+app.get('/michaelPassword', function(req, res) {  
+  res.render('michaelPassword', { title: 'Michaels Password page!' })
+});
+app.get('/tonyPassword', function(req, res) {  
+  res.render('tonyPassword', { title: 'Tonys Password page!' })
+});
+app.get('/abdullahPassword', function(req, res) {  
+  res.render('abdullahPassword', { title: 'Abdullahs Password page!' })
+});
 app.get('/sonika', function(req, res) {  
   res.render('sonika', { title: 'Sonikas page!' })
 });

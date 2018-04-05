@@ -7,9 +7,6 @@
      if (annyang) {
        // Let's define a command.
        var commands = {
-         'skateboard': function() { 
-            alert('Congrats you have logged in!'); 
-          },
           'log out': function() {
             location.replace('/logout');
           }
@@ -20,13 +17,10 @@
        annyang.addCommands(commands);
        // Start listening.
        annyang.start();
-       annyang.addCallback('resultNoMatch', function(phrases) {
-        alert('Sorry, incorrect password'); 
-      });
      }
     </script>
   </head>
   <body>
-    <h1>Welcome Back! Please state your password, Michael Goodrum.</h1>
+    <h1>Hi, Michael Goodrum! Your zone is number 1!</h1>
   </body>
 </html>
