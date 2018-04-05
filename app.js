@@ -19,4 +19,16 @@ app.get('/tony', function(req, res) {
 app.get('/abdullah', function(req, res) {  
   res.render('abdullah', { title: 'Abdullahs page!' })
 });
+app.get('/takeSomethingOK', function(req, res) {  
+  res.render('takeSomethingOK', { title: 'Take Something OK page!' })
+});
+app.get('/takeSomethingNotOK', function(req, res) {  
+  res.render('takeSomethingNotOK', { title: 'Take Something Not OK page!' })
+});
+app.get('/placeOK', function(req, res) {  
+  res.render('placeOK', { title: 'Place OK page!' })
+});
+app.get('/placeNotOK', function(req, res) {  
+  res.render('placeNotOK', { title: 'Place Not OK page!' })
+});
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
