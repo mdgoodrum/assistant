@@ -10,6 +10,10 @@
          'west mar': function() { 
             alert('Congrats you have logged in!'); 
           }
+          'logout': function() {
+            alert('Logout successful. See you next time!');
+            location.replace("/");
+          }
        };
        // This should be true
        console.log(annyang.isListening())
@@ -17,8 +21,8 @@
        annyang.addCommands(commands);
        // Start listening.
        annyang.start();
-       annyang.addCallback('soundstart', function() {
-         console.log('sound detected');
+       annyang.addCallback('resultNoMatch', function(phrases) {
+        alert('Sorry, incorrect password');
        });
      }
     </script>

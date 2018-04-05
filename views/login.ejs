@@ -30,9 +30,12 @@
        annyang.addCommands(commands);
        // Start listening.
        annyang.start();
-       annyang.addCallback('soundstart', function() {
-         console.log('sound detected');
-       });
+       // annyang.addCallback('soundstart', function() {
+       //   console.log('sound detected');
+       // });
+       annyang.addCallback('resultNoMatch', function(phrases) {
+        alert('Sorry, you are not a registered user'); 
+      });
      }
     </script>
   </head>
