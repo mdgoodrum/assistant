@@ -14,9 +14,6 @@
        };
        // This should be true
        console.log(annyang.isListening())
-       setTimeout(function () {
-           console.log('timeout completed');
-       }, 3000);
        // Add our commands to annyang
        annyang.addCommands(commands);
        // Start listening.
@@ -26,6 +23,11 @@
        });
 
      }
+     function logout(arg) {
+     	  alert('Hey, I’m still here! If you ever need anything, you know where to find me');
+     	  location.replace('/');
+     	}
+     	setTimeout(logout, 10000);
     </script>
   </head>
   <body>

@@ -50,7 +50,7 @@ app.get('/timeout', function(req, res) {
   const util = require('util');
   //const setTimeout(10000, function() {app.end('disconnecting client...');});
   const setTimeoutPromise = util.promisify(setTimeout);
-  setTimeoutPromise(3000, 'foobar').then((value) = {
+  setTimeoutPromise(10000, 'foobar').then((value) = {
   // value === 'foobar' (passing values is optional)
   // This is executed after about 40 milliseconds.
 });
