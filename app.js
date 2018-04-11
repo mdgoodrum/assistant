@@ -46,6 +46,14 @@ app.get('/placeNotOK', function(req, res) {
 app.get('/logout', function(req, res) {  
   res.render('logout', { title: 'Logout page!' })
 });
+app.get('/timeout', function(req, res) {
+  const util = require('util');
+  const setTimeoutPromise = util.promisify(setTimeout);
+setTimeoutPromise(40, 'foobar').then((value) => {
+  // value === 'foobar' (passing values is optional)
+  // This is executed after about 40 milliseconds.
+});
+})
 app.get('/video', function(req, res) {
   const fs = require('fs');
   const path = 'videos/sample.mp4'
