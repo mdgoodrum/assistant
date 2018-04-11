@@ -48,7 +48,9 @@ app.get('/placeNotOK', function(req, res) {
 app.get('/logout', function(req, res) {  
   res.render('logout', { title: 'Logout page!' })
 });
-
+app.get('/invaliduser', function(req, res) {  
+  res.render('invaliduser', { title: 'Invalid username page!' })
+});
 //video paths
 app.get('/invaliduser', function(req, res) {
   const fs = require('fs');

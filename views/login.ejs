@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <style>
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%; 
+      min-height: 100%;
+    }
+  </style>
  <title>Jarvis</title>
  <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
    <script>
@@ -33,12 +42,16 @@
        //   console.log('sound detected');
        // });
        annyang.addCallback('resultNoMatch', function(phrases) {
-        alert('Sorry, you are not a registered user'); 
+        //alert('Sorry, you are not a registered user'); 
+        location.replace('/invaliduser');
       });
      }
     </script>
   </head>
   <body>
-    <h1>Nice to see you again! Please say your user name.</h1>
+    
+    <video id="myVideo" autoplay>
+      <source src="http://localhost:3000/username" type="video/webm">
+    </video>
   </body>
 </html>

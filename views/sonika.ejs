@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <style>
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%; 
+      min-height: 100%;
+    }
+  </style>
  <title>Jarvis</title>
  <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.m8in.js"></script>
    <script>
@@ -21,6 +30,8 @@
     </script>
   </head>
   <body>
-    <h1>Hi, Sonika Finch! Your zone is number 2!</h1>
+    <video id="myVideo" autoplay>
+    <source src="http://localhost:3000/zone2" type="video/webm">
+  </video>
   </body>
 </html>

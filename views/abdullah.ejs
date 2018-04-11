@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<style>
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%; 
+      min-height: 100%;
+    }
+  </style>  
  <title>Jarvis</title>
  <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
-   <script>
-     if (annyang) {
-       // Let's define a command.
-       var commands = {
-          'log out': function() {
-            location.replace('/logout');
-          }
-       };
-       // This should be true
-       console.log(annyang.isListening())
-       // Add our commands to annyang
-       annyang.addCommands(commands);
-       // Start listening.
-       annyang.start();
-     }
-    </script>
-  </head>
-  <body>
-    <h1>Hi, Abdullah Saibu! Your zone is number 4!</h1>
-  </body>
+	 <script>
+		 if (annyang) {
+			 // Let's define a command.
+			 var commands = {
+					'log out': function() {
+						location.replace('/logout');
+					}
+			 };
+			 // This should be true
+			 console.log(annyang.isListening())
+			 // Add our commands to annyang
+			 annyang.addCommands(commands);
+			 // Start listening.
+			 annyang.start();
+		 }
+		</script>
+	</head>
+	<body>
+		<video id="myVideo" autoplay>
+      <source src="http://localhost:3000/zone4" type="video/webm">
+    </video>
+	</body>
 </html>
