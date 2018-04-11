@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>Jarvis</title>
- <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
-   <script>
-     if (annyang) {
-       // Let's define a command.
-       var commands = {
-         'log in': function() { 
-            //alert('Hey! Which user is this?'); 
-            location.replace("/login")
-          }
-       };
-       // This should be true
-       console.log(annyang.isListening())
-       // Add our commands to annyang
-       annyang.addCommands(commands);
-       // Start listening.
-       annyang.start();
-       annyang.addCallback('soundstart', function() {
-         console.log('sound detected');
-       });
-     }
-    </script>
-  </head>
-  <body>
-    <h1>Hi, this is Jarvis, would you like to get something? Please say "Log In" when you are ready.</h1>
-    <video id="videoPlayer" controls>
-      <source src="http://localhost:3000/video" type="video/webm">
-    </video>
-    <video id="videoPlayer" controls>
-      <source src="http://localhost:3000/second" type="video/webm">
-    </video>
-  </body>
+  <style>
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%; 
+      min-height: 100%;
+    }
+  </style>
+  <title>Jarvis</title>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+ <script>
+   if (annyang) {
+     // Let's define a command.
+     var commands = {
+       'log in': function() { 
+          //alert('Hey! Which user is this?'); 
+          location.replace("/login")
+        }
+     };
+     // This should be true
+     console.log(annyang.isListening())
+     // Add our commands to annyang
+     annyang.addCommands(commands);
+     // Start listening.
+     annyang.start();
+     annyang.addCallback('soundstart', function() {
+       console.log('sound detected');
+     });
+   }
+  </script>
+</head>
+<body>
+  <video id="myVideo" autoplay>
+    <source src="http://localhost:3000/greeting" type="video/webm">
+  </video>
+</body>
 
 </html>
