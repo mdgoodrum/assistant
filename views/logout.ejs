@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <style>
@@ -13,17 +13,49 @@
  <title>Jarvis</title>
    <script>
 
-  function logout(arg) {
+  function logout2(arg) {
     location.replace('/');
   }
 
-  setTimeout(logout, 3000);
+  setTimeout(logout2, 8000);
     </script>
   </head>
   <body>
-    <h1>Logout successful. See you next time!</h1>
+    
     <video id="myVideo" autoplay>
       <source src="http://localhost:3000/logout" type="video/webm">
+    </video>
+  </body>
+</html>
+ -->
+
+ <!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%; 
+      min-height: 100%;
+    }
+  </style>
+ <title>Jarvis</title>
+ 
+   <script>
+      function logout2(arg) {
+        location.replace('/');
+      }
+
+      setTimeout(logout2, 8000);
+    
+    </script>
+  </head>
+  <body>
+    
+    <video id="myVideo" autoplay>
+      <source src="http://localhost:3000/logoutvideo" type="video/webm">
     </video>
   </body>
 </html>

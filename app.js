@@ -51,10 +51,13 @@ app.get('/logout', function(req, res) {
 app.get('/invaliduser', function(req, res) {  
   res.render('invaliduser', { title: 'Invalid username page!' })
 });
+app.get('/invalidPassword', function(req, res) {  
+  res.render('invalidPassword', { title: 'Invalid password page!' })
+});
 //video paths
-app.get('/invaliduser', function(req, res) {
+app.get('/invaliduservideo', function(req, res) {
   const fs = require('fs');
-  const path = 'videos/invaliduser.webm'
+  const path = 'videos/invaliduservideo.webm'
   const stat = fs.statSync(path)
   const fileSize = stat.size
   const range = req.headers.range
@@ -114,9 +117,9 @@ app.get('/greeting', function(req, res) {
     fs.createReadStream(path).pipe(res)
   }
 });
-app.get('/logout', function(req, res) {
+app.get('/logoutvideo', function(req, res) {
   const fs = require('fs');
-  const path = 'videos/logout.webm'
+  const path = 'videos/logoutvideo.webm'
   const stat = fs.statSync(path)
   const fileSize = stat.size
   const range = req.headers.range
