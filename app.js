@@ -51,8 +51,17 @@ app.get('/logout', function(req, res) {
 app.get('/invaliduser', function(req, res) {  
   res.render('invaliduser', { title: 'Invalid username page!' })
 });
-app.get('/invalidPassword', function(req, res) {  
-  res.render('invalidPassword', { title: 'Invalid password page!' })
+app.get('/tonyInvalid', function(req, res) {  
+  res.render('tonyInvalid', { title: 'Invalid password page!' })
+});
+app.get('/sonikaInvalid', function(req, res) {  
+  res.render('sonikaInvalid', { title: 'Invalid password page!' })
+});
+app.get('/abdullahInvalid', function(req, res) {  
+  res.render('abdullahInvalid', { title: 'Invalid password page!' })
+});
+app.get('/michaelInvalid', function(req, res) {  
+  res.render('michaelInvalid', { title: 'Invalid password page!' })
 });
 //video paths
 app.get('/invaliduservideo', function(req, res) {
