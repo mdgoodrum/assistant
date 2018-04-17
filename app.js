@@ -3,31 +3,27 @@ var net = require('net');
 var HOST = 'localhost';
 var PORT = 8080;
 
-// Create a server instance, and chain the listen function to it
-// The function passed to net.createServer() becomes the event handler for the 'connection' event
-// The sock object the callback function receives UNIQUE for each connection
+// Create a server instance
 var server = net.createServer(function(sock) {
-    
-    // We have a connection - a socket object is assigned to the connection automatically
-    //console.log('CONNECTED: ' + sock.remoteAddress +':'+ sock.remotePort);
     
     // Add a 'data' event handler to this instance of socket
     sock.on('data', function(data) {
-        console.log('\n\nDATA ' + sock.remoteAddress + ': ' + data);
+        console.log('\n\nDATA ' + sock.remoteAddress + ': \n' + data);
+        var dataString = data.toString();
+        var dataIndex = dataString.indexOf("data:") + "data:".length;
+        var force = parseInt(dataString.substring(dataIndex));
+        console.log('\nExtracted data: ' + force.toString());
     });
     
     // Add a 'close' event handler to this instance of socket
     sock.on('close', function(data) {
         console.log('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
     });
-    
 });
 
 server.listen(PORT, HOST);
 
 console.log('Data server listening on ' + HOST +':'+ PORT);
-
-
 
 
 const express = require('express');
@@ -96,6 +92,7 @@ app.get('/abdullahInvalid', function(req, res) {
 app.get('/michaelInvalid', function(req, res) {  
   res.render('michaelInvalid', { title: 'Invalid password page!' })
 });
+
 //video paths
 app.get('/invaliduservideo', function(req, res) {
   const fs = require('fs');
@@ -469,4 +466,6 @@ app.get('/stealvid', function(req, res) {
     fs.createReadStream(path).pipe(res)
   }
 });
+
+//port connection
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

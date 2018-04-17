@@ -1,10 +1,8 @@
 #include "ESP8266WiFi.h"
 
-const char* host = "37ab1680.ngrok.io"; 
-
+const char* host = "64d275a3.ngrok.io"; 
 const char* MY_SSID = "Sonika Finch iphone";
 const char* MY_PWD =  "sonwifip";
-
 
 void setup()
 {
@@ -40,11 +38,11 @@ void loop() {
     client.print(String("GET /") + " HTTP/1.1\r\n" +
                  "Host: " + host + "\r\n"
                 );
-    client.println("Content-Type: text/plain");
-    client.print("Content-Length: ");
-    client.print(data.length());
+    client.println("Content-Type: application/json");
+    client.print("Content-Length:");
+    client.print(5 + data.length());
     client.print("\n\n");
-    client.print(data);
+    client.print("data:" + data);
     client.print("Connection: close\r\n\r\n");
     client.stop(); 
 
