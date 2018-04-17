@@ -11,7 +11,7 @@ var server = net.createServer(function(sock) {
         console.log('\n\nDATA ' + sock.remoteAddress + ': \n' + data);
         var dataString = data.toString();
         var dataIndex = dataString.indexOf("data:") + "data:".length;
-        var force = parseInt(dataString.substring(dataIndex));
+        var force = parseInt(dataString.substring(dataIndex));     //!!!!!! THIS int force IS THE DATA FROM THE SENSOR !!!!!! you should't have to worry about the rest of the stuff going on here
         console.log('\nExtracted data: ' + force.toString());
     });
     
