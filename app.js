@@ -1,6 +1,39 @@
+var net = require('net');
+
+var HOST = 'localhost';
+var PORT = 8080;
+
+// Create a server instance, and chain the listen function to it
+// The function passed to net.createServer() becomes the event handler for the 'connection' event
+// The sock object the callback function receives UNIQUE for each connection
+var server = net.createServer(function(sock) {
+    
+    // We have a connection - a socket object is assigned to the connection automatically
+    //console.log('CONNECTED: ' + sock.remoteAddress +':'+ sock.remotePort);
+    
+    // Add a 'data' event handler to this instance of socket
+    sock.on('data', function(data) {
+        console.log('\n\nDATA ' + sock.remoteAddress + ': ' + data);
+    });
+    
+    // Add a 'close' event handler to this instance of socket
+    sock.on('close', function(data) {
+        console.log('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
+    });
+    
+});
+
+server.listen(PORT, HOST);
+
+console.log('Data server listening on ' + HOST +':'+ PORT);
+
+
+
+
 const express = require('express');
 const app = express();
 app.set('view engine', 'ejs');
+
 
 //page paths
 app.get('/', function(req, res) {  
