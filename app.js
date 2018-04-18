@@ -8,6 +8,15 @@ var prevSensor2 = 0;
 var prevSensor3 = 0;
 var buffer = 5; //TODO: experiment with this buffer val
 
+
+//local storage for active user
+if (typeof localStorage === "undefined" || localStorage === null) {
+  var LocalStorage = require('node-localstorage').LocalStorage;
+  localStorage = new LocalStorage('./scratch');
+  localStorage.clear();
+}
+
+
 // Create a server instance
 var server = net.createServer(function(sock) {
     
@@ -25,32 +34,33 @@ var server = net.createServer(function(sock) {
         console.log('3 : ' + sensor3);
 
         //TODO: how to check for user?
-        if (currentUser != user1) {  
+        var currentUser = localStorage.getItem('ActiveUser');
+        if (currentUser != '1') {  
           if (prevSensor1 - sensor1 > buffer) {
             prevSensor1 = sensor1;
             //TODO: can add in param for where they took it?
-            location.replace('/takeSomethingNotOK');    //TODO: can change pages like this?
+            res.redirect('/takeSomethingNotOK');    //TODO: can change pages like this?
           } else if (sensor1 - prevSensor1 > buffer) {
             prevSensor1 = sensor1;
-            location.replace('/placeNotOK');
+            res.redirect('/placeNotOK');
           }
-        } else if (currentUser != user2) {
+        } else if (currentUser != '2') {
           if (prevSensor2 - sensor2 > buffer) {
             prevSensor2 = sensor2;
             //TODO: can add in param for where they took it?
-            location.replace('/takeSomethingNotOK');    //TODO: can change pages like this?
+            res.redirect('/takeSomethingNotOK');    //TODO: can change pages like this?
           } else if (sensor2 - prevSensor2 > buffer) {
             prevSensor2 = sensor2;
-            location.replace('/placeNotOK');
+            res.redirect('/placeNotOK');
           }
         } else {
           if (prevSensor3 - sensor3 > buffer) {
             prevSensor3 = sensor3;
             //TODO: can add in param for where they took it?
-            location.replace('/takeSomethingNotOK');    //TODO: can change pages like this?
+            res.redirect('/takeSomethingNotOK');    //TODO: can change pages like this?
           } else if (sensor3 - prevSensor3 > buffer) {
             prevSensor3 = sensor3;
-            location.replace('/placeNotOK');
+            res.redirect('/placeNotOK');
           }
         }
     });
@@ -64,16 +74,19 @@ server.listen(PORT, HOST);
 console.log('Data server listening on ' + HOST +':'+ PORT);
 
 
-
-
 const express = require('express');
 const app = express();
 app.set('view engine', 'ejs');
 
 
+
+
+
 //page paths
 app.get('/', function(req, res) {  
   res.render('index', { title: 'The index page!' })
+  //current user? console 
+  
 });
 app.get('/login', function(req, res) {  
   res.render('login', { title: 'Login page!' })
@@ -86,21 +99,30 @@ app.get('/michaelPassword', function(req, res) {
 });
 app.get('/tonyPassword', function(req, res) {  
   res.render('tonyPassword', { title: 'Tonys Password page!' })
+
 });
 app.get('/abdullahPassword', function(req, res) {  
   res.render('abdullahPassword', { title: 'Abdullahs Password page!' })
 });
 app.get('/sonika', function(req, res) {  
   res.render('sonika', { title: 'Sonikas page!' })
+  localStorage.setItem('ActiveUser', '2');
+  console.log('page' + localStorage.getItem('ActiveUser'));
 });
 app.get('/michael', function(req, res) {  
   res.render('michael', { title: 'Michaels page!' })
+  localStorage.setItem('ActiveUser', '1');
+  console.log('page' + localStorage.getItem('ActiveUser'));
 });
 app.get('/tony', function(req, res) {  
   res.render('tony', { title: 'Tonys page!' })
+  localStorage.setItem('ActiveUser', '3');
+  console.log('page' + localStorage.getItem('ActiveUser'));
 });
 app.get('/abdullah', function(req, res) {  
   res.render('abdullah', { title: 'Abdullahs page!' })
+  localStorage.setItem('ActiveUser', '4');
+  console.log('page' + localStorage.getItem('ActiveUser'));
 });
 app.get('/takeSomethingOK', function(req, res) {  
   res.render('takeSomethingOK', { title: 'Take Something OK page!' })

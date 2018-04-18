@@ -47,7 +47,8 @@
       function logout2(arg) {
         location.replace('/');
       }
-
+      localStorage.clear();
+      console.log(localStorage.getItem('ActiveUser'));
       setTimeout(logout2, 8000);
     
     </script>

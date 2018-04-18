@@ -22,6 +22,8 @@
        };
        // This should be true
        console.log(annyang.isListening())
+       localStorage.setItem('ActiveUser', '1');
+       console.log(localStorage.getItem('ActiveUser'));
        // Add our commands to annyang
        annyang.addCommands(commands);
        // Start listening.
