@@ -7,9 +7,9 @@ app.set('view engine', 'ejs');
 var HOST = 'localhost';
 var PORT = 8080;
 
-var prevSensor1 = 2;
-var prevSensor2 = 9;
-var prevSensor3 = 6;
+var prevSensor1 = -1;
+var prevSensor2 = -1;
+var prevSensor3 = -1;
 var buffer = 5; //TODO: experiment with this buffer val
 
 
@@ -41,6 +41,8 @@ var server = net.createServer(function(sock) {
         console.log('3 : ' + sensor3);
         */
        
+
+       //start of dummy data
        var sensor1 = data.toString().substring(0, 1);
        var sensor2 = data.toString().substring(1, 2);
        var sensor3 = data.toString().substring(2, 3);
@@ -49,68 +51,77 @@ var server = net.createServer(function(sock) {
         console.log('1 : ' + sensor1);
         console.log('2 : ' + sensor2);
         console.log('3 : ' + sensor3);
+        //end of dummy data
 
-        var currentUser = localStorage.getItem('ActiveUser');
+      //first scan of sensors
+      if (prevSensor1 < 0) {
+        prevSensor1 = sensor1;
+        prevSensor2 = sensor2;
+        prevSensor3 = sensor3;
+      }
 
-        //Not allowed action
-        
-        //Evaluate Zone 1
-        if (currentUser != '1') {  
-          if (prevSensor1 - sensor1 > buffer) {
-            prevSensor1 = sensor1;
-            if (currentUser == '2'){
-              res.redirect('/takeSomethingNotOKSonika');    //Micheal TODO
-            } else {
-              res.redirect('/takeSomethingNotOKTony');    //Micheal TODO
-            }
-          
-          } else if (sensor1 - prevSensor1 > buffer) {
-            prevSensor1 = sensor1;
-            if (currentUser == '2'){
-              res.redirect('/placeNotOKSonika');    //Micheal TODO
-            } else {
-              res.redirect('/placeNotOKTony');    //Micheal TODO
-            }
+      //logged in user
+      var currentUser = localStorage.getItem('ActiveUser');
+
+      //Not allowed action
+      
+      //Evaluate Zone 1
+      if (currentUser != '1') {  
+        if (prevSensor1 - sensor1 > buffer) {
+          prevSensor1 = sensor1;
+          if (currentUser == '2'){
+            res.redirect('/takeSomethingNotOKSonika');    //Micheal TODO
+          } else {
+            res.redirect('/takeSomethingNotOKTony');    //Micheal TODO
           }
         
-        //Evaluate Zone 2
-        } else if (currentUser != '2') {
-          if (prevSensor2 - sensor2 > buffer) {
-            prevSensor2 = sensor2;
-            if (currentUser == '1'){
-              res.redirect('/takeSomethingNotOKMicheal');    //Micheal TODO
-            } else {
-              res.redirect('/takeSomethingNotOKTony');    //Micheal TODO
-            }
-
-          } else if (sensor2 - prevSensor2 > buffer) {
-            prevSensor2 = sensor2;
-            if (currentUser == '1'){
-              res.redirect('/placeNotOKMicheal');    //Micheal TODO
-            } else {
-              res.redirect('/placeNotOKTony');    //Micheal TODO
-            }
-          }
-        
-        //Evaluate Zone 3
-        } else {
-          if (prevSensor3 - sensor3 > buffer) {
-            prevSensor3 = sensor3;
-            if (currentUser == '1'){
-              res.redirect('/takeSomethingNotOKMicheal');    //Micheal TODO
-            } else {
-              res.redirect('/takeSomethingNotOKSonika');    //Micheal TODO
-            }
-
-          } else if (sensor3 - prevSensor3 > buffer) {
-            prevSensor3 = sensor3;
-            if (currentUser == '1'){
-              res.redirect('/placeNotOKMicheal');    //Micheal TODO
-            } else {
-              res.redirect('/placeNotOKSonika');    //Micheal TODO
-            }
+        } else if (sensor1 - prevSensor1 > buffer) {
+          prevSensor1 = sensor1;
+          if (currentUser == '2'){
+            res.redirect('/placeNotOKSonika');    //Micheal TODO
+          } else {
+            res.redirect('/placeNotOKTony');    //Micheal TODO
           }
         }
+      
+      //Evaluate Zone 2
+      } else if (currentUser != '2') {
+        if (prevSensor2 - sensor2 > buffer) {
+          prevSensor2 = sensor2;
+          if (currentUser == '1'){
+            res.redirect('/takeSomethingNotOKMicheal');    //Micheal TODO
+          } else {
+            res.redirect('/takeSomethingNotOKTony');    //Micheal TODO
+          }
+
+        } else if (sensor2 - prevSensor2 > buffer) {
+          prevSensor2 = sensor2;
+          if (currentUser == '1'){
+            res.redirect('/placeNotOKMicheal');    //Micheal TODO
+          } else {
+            res.redirect('/placeNotOKTony');    //Micheal TODO
+          }
+        }
+      
+      //Evaluate Zone 3
+      } else {
+        if (prevSensor3 - sensor3 > buffer) {
+          prevSensor3 = sensor3;
+          if (currentUser == '1'){
+            res.redirect('/takeSomethingNotOKMicheal');    //Micheal TODO
+          } else {
+            res.redirect('/takeSomethingNotOKSonika');    //Micheal TODO
+          }
+
+        } else if (sensor3 - prevSensor3 > buffer) {
+          prevSensor3 = sensor3;
+          if (currentUser == '1'){
+            res.redirect('/placeNotOKMicheal');    //Micheal TODO
+          } else {
+            res.redirect('/placeNotOKSonika');    //Micheal TODO
+          }
+        }
+      }
 
     });
     
