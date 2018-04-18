@@ -1,4 +1,11 @@
 var net = require('net');
+const aws = require('aws-sdk')
+aws.config.update({
+        accessKeyId: 'AKIAJO7P7NFLFMRYNOGQ',
+        secretAccessKey: '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',
+        region: 'us-east-2'
+    })
+const lambda = new aws.Lambda()
 
 const express = require('express');
 const app = express();
@@ -12,6 +19,16 @@ var prevSensor2 = -1;
 var prevSensor3 = -1;
 var buffer = 5; //TODO: experiment with this buffer val
 
+app.locals.takeSomethingNotOKsonika = false
+app.locals.placeSomethingNotOKsonika = false
+app.locals.takeSomethingNotOKmichael = false
+app.locals.placeSomethingNotOKmichael = false
+app.locals.takeSomethingNotOKtony = false
+app.locals.placeSomethingNotOKtony = false
+app.locals.takeSomethingNotOKabdullah = false
+app.locals.placeSomethingNotOKabdullah = false
+app.locals.itemNotOK = false
+
 
 
 //local storage for active user
@@ -24,14 +41,16 @@ if (typeof localStorage === "undefined" || localStorage === null) {
 
 // Create a server instance
 var server = net.createServer(function(sock) {
-    
+
     // Add a 'data' event handler to this instance of socket
     sock.on('data', function(data) {
       //Arduino data logic
-      /* 
+      /*
         console.log('\n\nDATA ' + sock.remoteAddress + ': \n' + data);
         var json = JSON.parse(data.toString().substring("{ sensor1:"));
-        var sensor1 = parseInt(json.sensor1);                 //!!!!!! THIS int force IS THE DATA FROM THE SENSOR !!!!!! you should't have to worry about the rest of the stuff going on here
+        var sensor1 = parseInt(json.sensor1);                 //!!!!!!
+THIS int force IS THE DATA FROM THE SENSOR !!!!!! you should't have to
+worry about the rest of the stuff going on here
         var sensor2 = parseInt(json.sensor2);
         var sensor3 = parseInt(json.sensor3);
 
@@ -40,8 +59,6 @@ var server = net.createServer(function(sock) {
         console.log('2 : ' + sensor2);
         console.log('3 : ' + sensor3);
         */
-       
-
        //start of dummy data
        var sensor1 = data.toString().substring(0, 1);
        var sensor2 = data.toString().substring(1, 2);
@@ -61,80 +78,88 @@ var server = net.createServer(function(sock) {
       }
 
       //logged in user
-      var currentUser = localStorage.getItem('ActiveUser');
+      //var currentUser = localStorage.getItem('ActiveUser');
+      let currentUser =  app.locals.ActiveUser
 
       //Not allowed action
-      
+
       //Evaluate Zone 1
-      if (currentUser != '1') {  
-          if (prevSensor1 - sensor1 > buffer) {
-            prevSensor1 = sensor1;
-            //TODO: can add in param for where they took it?
-            //res.redirect('/takeSomethingNotOK');    //TODO: can change pages like this?
-            if (currentUser == '2')
-              {res.redirect('/takeSomethingNotOKsonika');}
-            if (currentUser == '3')
-              {res.redirect('/takeSomethingNotOKtony');}
-            if (currentUser == '4')
-              {res.redirect('/takeSomethingNotOKabdullah');}
-            
-
-          } else if (sensor1 - prevSensor1 > buffer) {
-            prevSensor1 = sensor1;
-            if (currentUser == '2')
-              {res.redirect('/placeSomethingNotOKsonika');}
-            if (currentUser == '3')
-              {res.redirect('/placeSomethingNotOKtony');}
-            if (currentUser == '4')
-              {res.redirect('/placeSomethingNotOKabdullah');}
-
+      if (currentUser != '1') {
+        if (prevSensor1 - sensor1 > buffer) {
+          prevSensor1 = sensor1;
+          if (currentUser == '2'){
+            //res.redirect('/takeSomethingNotOKsonika');    //Micheal TODO
+            app.locals.itemNotOK = true //set this to false if theitem is placed back
+            app.locals.takeSomethingNotOKsonika = true
+          } else {
+            //res.redirect('/takeSomethingNotOKtony');    //MichealTODO must re render page after this
+            app.locals.itemNotOK = true
+            app.locals.takeSomethingNotOKtony = true
           }
-      
+
+        } else if (sensor1 - prevSensor1 > buffer) {
+          prevSensor1 = sensor1;
+          if (currentUser == '2'){
+            //res.redirect('/placeSomethingNotOKsonika');    //Micheal TODO
+            app.locals.placeSomethingNotOKsonika = true
+          } else {
+            //res.redirect('/placeSomethingNotOKtony');    //Micheal TODO
+            app.locals.placeSomethingNotOKtony = true
+          }
+        }
+
       //Evaluate Zone 2
       } else if (currentUser != '2') {
         if (prevSensor2 - sensor2 > buffer) {
-            prevSensor2 = sensor2;
-            //TODO: can add in param for where they took it?
-            //res.redirect('/takeSomethingNotOK');    //TODO: can change pages like this?
-            if (currentUser == '1')
-              {res.redirect('/takeSomethingNotOKmichael');}
-            if (currentUser == '3')
-              {res.redirect('/takeSomethingNotOKtony');}
-            if (currentUser == '4')
-              {res.redirect('/takeSomethingNotOKabdullah');}
-          } else if (sensor2 - prevSensor2 > buffer) {
-            prevSensor2 = sensor2;
-            if (currentUser == '1')
-              {res.redirect('/placeSomethingNotOKmichael');}
-            if (currentUser == '3')
-              {res.redirect('/placeSomethingNotOKtony');}
-            if (currentUser == '4')
-              {res.redirect('/placeSomethingNotOKabdullah');}
+          prevSensor2 = sensor2;
+          if (currentUser == '1'){
+            //res.redirect('/takeSomethingNotOKMicheal');    //Micheal TODO
+            app.locals.itemNotOK = true
+            app.locals.takeSomethingNotOKMicheal = true
+          } else {
+            //res.redirect('/takeSomethingNotOKtony');    //Micheal TODO
+            app.locals.itemNotOK = true
+            app.locals.takeSomethingNotOKtony = true
+          }
+
+        } else if (sensor2 - prevSensor2 > buffer) {
+          prevSensor2 = sensor2;
+          if (currentUser == '1'){
+            //res.redirect('/placeNotOKMicheal');    //Micheal TODO
+            app.locals.placeNotOKMicheal = true
+          } else {
+            //res.redirect('/placeSomethingNotOKtony');    //Micheal TODO
+            app.locals.placeSomethingNotOKtony = true
+
+          }
         }
-      
+
       //Evaluate Zone 3
       } else {
         if (prevSensor3 - sensor3 > buffer) {
           prevSensor3 = sensor3;
-           if (currentUser == '2')
-              {res.redirect('/takeSomethingNotOKsonika');}
-            if (currentUser == '1')
-              {res.redirect('/takeSomethingNotOKmichael');}
-            if (currentUser == '4')
-              {res.redirect('/takeSomethingNotOKabdullah');}
+          if (currentUser == '1'){
+            //res.redirect('/takeSomethingNotOKMicheal');    //Micheal TODO
+            app.locals.takeSomethingNotOKMicheal = true
+          } else {
+            //res.redirect('/takeSomethingNotOKsonika');    //Micheal TODO
+            app.locals.takeSomethingNotOKsonika = true
+          }
+
         } else if (sensor3 - prevSensor3 > buffer) {
           prevSensor3 = sensor3;
-          if (currentUser == '2')
-            {res.redirect('/placeSomethingNotOKsonika');}
-          if (currentUser == '1')
-            {res.redirect('/placeSomethingNotOKmichael');}
-          if (currentUser == '4')
-            {res.redirect('/placeSomethingNotOKabdullah');}
+          if (currentUser == '1'){
+            //res.redirect('/placeNotOKMicheal');    //Micheal TODO
+            app.locals.takeSomethingNotOKMicheal = true
+          } else {
+            //res.redirect('/placeSomethingNotOKsonika');    //Micheal TODO
+            app.locals.takeSomethingNotOKsonika = true
+          }
         }
       }
 
     });
-    
+
     // Add a 'close' event handler to this instance of socket
     sock.on('close', function(data) {
         console.log('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
@@ -145,123 +170,247 @@ console.log('Data server listening on ' + HOST +':'+ PORT);
 
 
 //page paths
-app.get('/', function(req, res) {  
-  res.render('index', { title: 'The index page!' })
-  //current user? console 
-  
+app.get('/', function(req, res) {
+  app.locals.ActiveUser = 0
+  res.render('index', { title : 'Main Page' })
+  //current user? console
 });
-app.get('/login', function(req, res) {  
+app.get('/login', function(req, res) {
   res.render('login', { title: 'Login page!' })
 });
-app.get('/sonikaPassword', function(req, res) {  
+app.get('/sonikaPassword', function(req, res) {
   res.render('sonikaPassword', { title: 'Sonikas Password page!' })
 });
-app.get('/michaelPassword', function(req, res) {  
+app.get('/michaelPassword', function(req, res) {
   res.render('michaelPassword', { title: 'Michaels Password page!' })
 });
-app.get('/tonyPassword', function(req, res) {  
+app.get('/tonyPassword', function(req, res) {
   res.render('tonyPassword', { title: 'Tonys Password page!' })
 
 });
-app.get('/abdullahPassword', function(req, res) {  
+app.get('/abdullahPassword', function(req, res) {
   res.render('abdullahPassword', { title: 'Abdullahs Password page!' })
 });
-app.get('/sonika', function(req, res) {  
+app.get('/sonika', function(req, res) {
+  app.locals.ActiveUser = "2"
   res.render('sonika', { title: 'Sonikas page!' })
-  localStorage.setItem('ActiveUser', '2');
+  //localStorage.setItem('ActiveUser', '2');
   console.log('page' + localStorage.getItem('ActiveUser'));
 });
-app.get('/michael', function(req, res) {  
+app.get('/michael', function(req, res) {
+  app.locals.ActiveUser = "1"
   res.render('michael', { title: 'Michaels page!' })
-  localStorage.setItem('ActiveUser', '1');
+  //localStorage.setItem('ActiveUser', '1');
   console.log('page' + localStorage.getItem('ActiveUser'));
 });
-app.get('/tony', function(req, res) {  
+app.get('/tony', function(req, res) {
+  app.locals.ActiveUser = "3"
   res.render('tony', { title: 'Tonys page!' })
-  localStorage.setItem('ActiveUser', '3');
+  //localStorage.setItem('ActiveUser', '3');
   console.log('page' + localStorage.getItem('ActiveUser'));
 });
-app.get('/abdullah', function(req, res) {  
+app.get('/abdullah', function(req, res) {
+  app.locals.ActiveUser = "4"
   res.render('abdullah', { title: 'Abdullahs page!' })
-  localStorage.setItem('ActiveUser', '4');
+  //localStorage.setItem('ActiveUser', '4');
   console.log('page' + localStorage.getItem('ActiveUser'));
 });
-app.get('/logout', function(req, res) {  
+app.get('/takeSomethingOK', function(req, res) {
+  res.render('takeSomethingOK', { title: 'Take Something OK page!' })
+});
+app.get('/takeSomethingNotOK', function(req, res) {
+  res.render('takeSomethingNotOK', { title: 'Take Something Not OK page!' })
+});
+app.get('/placeOK', function(req, res) {
+  res.render('placeOK', { title: 'Place OK page!' })
+});
+app.get('/placeNotOK', function(req, res) {
+  res.render('placeNotOK', { title: 'Place Not OK page!' })
+});
+app.get('/logout', function(req, res) {
   res.render('logout', { title: 'Logout page!' })
 });
-app.get('/invaliduser', function(req, res) {  
+app.get('/invaliduser', function(req, res) {
   res.render('invaliduser', { title: 'Invalid username page!' })
 });
-app.get('/tonyInvalid', function(req, res) {  
+app.get('/tonyInvalid', function(req, res) {
   res.render('tonyInvalid', { title: 'Invalid password page!' })
 });
-app.get('/sonikaInvalid', function(req, res) {  
+app.get('/sonikaInvalid', function(req, res) {
   res.render('sonikaInvalid', { title: 'Invalid password page!' })
 });
-app.get('/abdullahInvalid', function(req, res) {  
+app.get('/abdullahInvalid', function(req, res) {
   res.render('abdullahInvalid', { title: 'Invalid password page!' })
 });
-app.get('/michaelInvalid', function(req, res) {  
+app.get('/michaelInvalid', function(req, res) {
   res.render('michaelInvalid', { title: 'Invalid password page!' })
 });
-app.get('/placeOtherZone', function(req, res) {  
+app.get('/placeOtherZone', function(req, res) {
   res.render('placeOtherZone', { title: 'Place other zone page!' })
 });
+app.get('/takeSomethingNotOKsonika', function(req, res) {
+  function goback(arg) {
+    if (app.locals.itemNotOK) {
+      app.locals.itemNotOK = false
+      var params = {
+        FunctionName: "sonika"
+      }
+      lambda.invoke(params, function(err, data) {
+        if (err) console.log(err, err.stack)
+         else {
+          console.log(data)
+          if (app.locals.ActiveUser == 1) {
+            location.replace('/michael');
+          } else if (app.locals.ActiveUser == 2) {
+            location.replace('/sonika');
+          } else if (app.locals.ActiveUser == 3) {
+            location.replace('/tony');
+          } else if (app.locals.ActiveUser == 4) {
+            location.replace('/abdullah');
+          } else {
+            location.replace('/login');
+          }
+        }
+      })
+    } else {
+      if (app.locals.ActiveUser == 1) {
+        location.replace('/michael');
+      } else if (app.locals.ActiveUser == 2) {
+        location.replace('/sonika');
+      } else if (app.locals.ActiveUser == 3) {
+        location.replace('/tony');
+      } else if (app.locals.ActiveUser == 4) {
+        location.replace('/abdullah');
+      } else {
+        location.replace('/login');
+      }
+    }
+  }
 
+  setTimeout(goback, 9000);
+});
+app.get('/takeSomethingNotOKtony', function(req, res) {
+  function goback(arg) {
+    if (app.locals.itemNotOK) {
+      app.locals.itemNotOK = false
+      var params = {
+        FunctionName: "tony"
+      }
+      lambda.invoke(params, function(err, data) {
+        if (err) console.log(err, err.stack)
+         else {
+          console.log(data)
+          if (app.locals.ActiveUser == 1) {
+            location.replace('/michael');
+          } else if (app.locals.ActiveUser == 2) {
+            location.replace('/sonika');
+          } else if (app.locals.ActiveUser == 3) {
+            location.replace('/tony');
+          } else if (app.locals.ActiveUser == 4) {
+            location.replace('/abdullah');
+          } else {
+            location.replace('/login');
+          }
+        }
+      })
+    } else {
+      if (app.locals.ActiveUser == 1) {
+        location.replace('/michael');
+      } else if (app.locals.ActiveUser == 2) {
+        location.replace('/sonika');
+      } else if (app.locals.ActiveUser == 3) {
+        location.replace('/tony');
+      } else if (app.locals.ActiveUser == 4) {
+        location.replace('/abdullah');
+      } else {
+        location.replace('/login');
+      }
+    }
+  }
 
+  setTimeout(goback, 9000);
+});
+app.get('/takeSomethingNotOKabdullah', function(req, res) {
+  function goback(arg) {
+    if (app.locals.itemNotOK) {
+      app.locals.itemNotOK = false
+      var params = {
+        FunctionName: "abdullah"
+      }
+      lambda.invoke(params, function(err, data) {
+        if (err) console.log(err, err.stack)
+        else {
+          console.log(data)
+          if (app.locals.ActiveUser == 1) {
+            location.replace('/michael');
+          } else if (app.locals.ActiveUser == 2) {
+            location.replace('/sonika');
+          } else if (app.locals.ActiveUser == 3) {
+            location.replace('/tony');
+          } else if (app.locals.ActiveUser == 4) {
+            location.replace('/abdullah');
+          } else {
+            location.replace('/login');
+          }
+        }
+      })
+    } else {
+      if (app.locals.ActiveUser == 1) {
+        location.replace('/michael');
+      } else if (app.locals.ActiveUser == 2) {
+        location.replace('/sonika');
+      } else if (app.locals.ActiveUser == 3) {
+        location.replace('/tony');
+      } else if (app.locals.ActiveUser == 4) {
+        location.replace('/abdullah');
+      } else {
+        location.replace('/login');
+      }
+    }
+  }
 
-app.get('/takeSomethingNotOKabdullah', function(req, res) {  
-  res.render('takeSomethingNotOKabdullah', { title: 'Do you want to take it page!' })
+  setTimeout(goback, 9000);
 });
-app.get('/takeSomethingNotOKmichael', function(req, res) {  
-  res.render('takeSomethingNotOKmichael', { title: 'Do you want to take it page!' })
-});
-app.get('/takeSomethingNotOKsonika', function(req, res) {  
-  res.render('takeSomethingNotOKsonika', { title: 'Do you want to take it page!' })
-});
-app.get('/takeSomethingNotOKtony', function(req, res) {  
-  res.render('takeSomethingNotOKtony', { title: 'Do you want to take it page!' })
-});
+app.get('/takeSomethingNotOKmichael', function(req, res) {
+  function goback(arg) {
+    if (app.locals.itemNotOK) {
+      app.locals.itemNotOK = false
+      var params = {
+        FunctionName: "michael"
+      }
+      lambda.invoke(params, function(err, data) {
+        if (err) console.log(err, err.stack)
+         else {
+          console.log(data)
+          if (app.locals.ActiveUser == 1) {
+            location.replace('/michael');
+          } else if (app.locals.ActiveUser == 2) {
+            location.replace('/sonika');
+          } else if (app.locals.ActiveUser == 3) {
+            location.replace('/tony');
+          } else if (app.locals.ActiveUser == 4) {
+            location.replace('/abdullah');
+          } else {
+            location.replace('/login');
+          }
+        }
+      })
+    } else {
+      if (app.locals.ActiveUser == 1) {
+        location.replace('/michael');
+      } else if (app.locals.ActiveUser == 2) {
+        location.replace('/sonika');
+      } else if (app.locals.ActiveUser == 3) {
+        location.replace('/tony');
+      } else if (app.locals.ActiveUser == 4) {
+        location.replace('/abdullah');
+      } else {
+        location.replace('/login');
+      }
+    }
+  }
 
-app.get('/takeOtherZoneabdullah', function(req, res) {  
-  res.render('takeOtherZoneabdullah', { title: 'Take other zone page!' })
-});
-app.get('/takeOtherZonemichael', function(req, res) {  
-  res.render('takeOtherZonemichael', { title: 'Take other zone page!' })
-});
-app.get('/takeOtherZonesonika', function(req, res) {  
-  res.render('takeOtherZonesonika', { title: 'Take other zone page!' })
-});
-app.get('/takeOtherZonetony', function(req, res) {  
-  res.render('takeOtherZonetony', { title: 'Take other zone page!' })
-});
-
-
-
-app.get('/placeSomethingNotOKabdullah', function(req, res) {  
-  res.render('placeSomethingNotOKabdullah', { title: 'Do you want to place it page!' })
-});
-app.get('/placeSomethingNotOKmichael', function(req, res) {  
-  res.render('placeSomethingNotOKmichael', { title: 'Do you want to place it page!' })
-});
-app.get('/placeSomethingNotOKsonika', function(req, res) {  
-  res.render('placeSomethingNotOKsonika', { title: 'Do you want to place it page!' })
-});
-app.get('/placeSomethingNotOKtony', function(req, res) {  
-  res.render('placeSomethingNotOKtony', { title: 'Do you want to place it page!' })
-});
-
-app.get('/placeOtherZoneabdullah', function(req, res) {  
-  res.render('placeOtherZoneabdullah', { title: 'Place other zone page!' })
-});
-app.get('/placeOtherZonemichael', function(req, res) {  
-  res.render('placeOtherZonemichael', { title: 'Place other zone page!' })
-});
-app.get('/placeOtherZonesonika', function(req, res) {  
-  res.render('placeOtherZonesonika', { title: 'Place other zone page!' })
-});
-app.get('/placeOtherZonetony', function(req, res) {  
-  res.render('placeOtherZonetony', { title: 'Place other zone page!' })
+  setTimeout(goback, 9000);
 });
 
 
@@ -762,5 +911,6 @@ app.get('/placewrongzonevideo', function(req, res) {
     fs.createReadStream(path).pipe(res)
   }
 });
+
 //port connection
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
