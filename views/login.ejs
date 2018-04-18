@@ -17,6 +17,7 @@
        var commands = {
           'michael': function() { 
             location.replace('/michaelPassword')
+
           },
           'sonika': function() { 
             location.replace('/sonikaPassword')
@@ -33,6 +34,7 @@
        };
        // This should be true
        console.log(annyang.isListening())
+      
        // Add our commands to annyang
        annyang.addCommands(commands);
        // Start listening.
