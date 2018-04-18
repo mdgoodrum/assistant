@@ -67,59 +67,69 @@ var server = net.createServer(function(sock) {
       
       //Evaluate Zone 1
       if (currentUser != '1') {  
-        if (prevSensor1 - sensor1 > buffer) {
-          prevSensor1 = sensor1;
-          if (currentUser == '2'){
-            res.redirect('/takeSomethingNotOKSonika');    //Micheal TODO
-          } else {
-            res.redirect('/takeSomethingNotOKTony');    //Micheal TODO
+          if (prevSensor1 - sensor1 > buffer) {
+            prevSensor1 = sensor1;
+            //TODO: can add in param for where they took it?
+            //res.redirect('/takeSomethingNotOK');    //TODO: can change pages like this?
+            if (currentUser == '2')
+              {res.redirect('/takeSomethingNotOKsonika');}
+            if (currentUser == '3')
+              {res.redirect('/takeSomethingNotOKtony');}
+            if (currentUser == '4')
+              {res.redirect('/takeSomethingNotOKabdullah');}
+            
+
+          } else if (sensor1 - prevSensor1 > buffer) {
+            prevSensor1 = sensor1;
+            if (currentUser == '2')
+              {res.redirect('/placeSomethingNotOKsonika');}
+            if (currentUser == '3')
+              {res.redirect('/placeSomethingNotOKtony');}
+            if (currentUser == '4')
+              {res.redirect('/placeSomethingNotOKabdullah');}
+
           }
-        
-        } else if (sensor1 - prevSensor1 > buffer) {
-          prevSensor1 = sensor1;
-          if (currentUser == '2'){
-            res.redirect('/placeNotOKSonika');    //Micheal TODO
-          } else {
-            res.redirect('/placeNotOKTony');    //Micheal TODO
-          }
-        }
       
       //Evaluate Zone 2
       } else if (currentUser != '2') {
         if (prevSensor2 - sensor2 > buffer) {
-          prevSensor2 = sensor2;
-          if (currentUser == '1'){
-            res.redirect('/takeSomethingNotOKMicheal');    //Micheal TODO
-          } else {
-            res.redirect('/takeSomethingNotOKTony');    //Micheal TODO
-          }
-
-        } else if (sensor2 - prevSensor2 > buffer) {
-          prevSensor2 = sensor2;
-          if (currentUser == '1'){
-            res.redirect('/placeNotOKMicheal');    //Micheal TODO
-          } else {
-            res.redirect('/placeNotOKTony');    //Micheal TODO
-          }
+            prevSensor2 = sensor2;
+            //TODO: can add in param for where they took it?
+            //res.redirect('/takeSomethingNotOK');    //TODO: can change pages like this?
+            if (currentUser == '1')
+              {res.redirect('/takeSomethingNotOKmichael');}
+            if (currentUser == '3')
+              {res.redirect('/takeSomethingNotOKtony');}
+            if (currentUser == '4')
+              {res.redirect('/takeSomethingNotOKabdullah');}
+          } else if (sensor2 - prevSensor2 > buffer) {
+            prevSensor2 = sensor2;
+            if (currentUser == '1')
+              {res.redirect('/placeSomethingNotOKmichael');}
+            if (currentUser == '3')
+              {res.redirect('/placeSomethingNotOKtony');}
+            if (currentUser == '4')
+              {res.redirect('/placeSomethingNotOKabdullah');}
         }
       
       //Evaluate Zone 3
       } else {
         if (prevSensor3 - sensor3 > buffer) {
           prevSensor3 = sensor3;
-          if (currentUser == '1'){
-            res.redirect('/takeSomethingNotOKMicheal');    //Micheal TODO
-          } else {
-            res.redirect('/takeSomethingNotOKSonika');    //Micheal TODO
-          }
-
+           if (currentUser == '2')
+              {res.redirect('/takeSomethingNotOKsonika');}
+            if (currentUser == '1')
+              {res.redirect('/takeSomethingNotOKmichael');}
+            if (currentUser == '4')
+              {res.redirect('/takeSomethingNotOKabdullah');}
         } else if (sensor3 - prevSensor3 > buffer) {
           prevSensor3 = sensor3;
-          if (currentUser == '1'){
-            res.redirect('/placeNotOKMicheal');    //Micheal TODO
-          } else {
-            res.redirect('/placeNotOKSonika');    //Micheal TODO
-          }
+          if (currentUser == '2')
+            {res.redirect('/placeSomethingNotOKsonika');}
+          if (currentUser == '1')
+            {res.redirect('/placeSomethingNotOKmichael');}
+          if (currentUser == '4')
+            {res.redirect('/placeSomethingNotOKabdullah');}
         }
       }
 
@@ -176,18 +186,6 @@ app.get('/abdullah', function(req, res) {
   localStorage.setItem('ActiveUser', '4');
   console.log('page' + localStorage.getItem('ActiveUser'));
 });
-app.get('/takeSomethingOK', function(req, res) {  
-  res.render('takeSomethingOK', { title: 'Take Something OK page!' })
-});
-app.get('/takeSomethingNotOK', function(req, res) {  
-  res.render('takeSomethingNotOK', { title: 'Take Something Not OK page!' })
-});
-app.get('/placeOK', function(req, res) {  
-  res.render('placeOK', { title: 'Place OK page!' })
-});
-app.get('/placeNotOK', function(req, res) {  
-  res.render('placeNotOK', { title: 'Place Not OK page!' })
-});
 app.get('/logout', function(req, res) {  
   res.render('logout', { title: 'Logout page!' })
 });
@@ -208,6 +206,62 @@ app.get('/michaelInvalid', function(req, res) {
 });
 app.get('/placeOtherZone', function(req, res) {  
   res.render('placeOtherZone', { title: 'Place other zone page!' })
+});
+
+
+
+app.get('/takeSomethingNotOKabdullah', function(req, res) {  
+  res.render('takeSomethingNotOKabdullah', { title: 'Do you want to take it page!' })
+});
+app.get('/takeSomethingNotOKmichael', function(req, res) {  
+  res.render('takeSomethingNotOKmichael', { title: 'Do you want to take it page!' })
+});
+app.get('/takeSomethingNotOKsonika', function(req, res) {  
+  res.render('takeSomethingNotOKsonika', { title: 'Do you want to take it page!' })
+});
+app.get('/takeSomethingNotOKtony', function(req, res) {  
+  res.render('takeSomethingNotOKtony', { title: 'Do you want to take it page!' })
+});
+
+app.get('/takeOtherZoneabdullah', function(req, res) {  
+  res.render('takeOtherZoneabdullah', { title: 'Take other zone page!' })
+});
+app.get('/takeOtherZonemichael', function(req, res) {  
+  res.render('takeOtherZonemichael', { title: 'Take other zone page!' })
+});
+app.get('/takeOtherZonesonika', function(req, res) {  
+  res.render('takeOtherZonesonika', { title: 'Take other zone page!' })
+});
+app.get('/takeOtherZonetony', function(req, res) {  
+  res.render('takeOtherZonetony', { title: 'Take other zone page!' })
+});
+
+
+
+app.get('/placeSomethingNotOKabdullah', function(req, res) {  
+  res.render('placeSomethingNotOKabdullah', { title: 'Do you want to place it page!' })
+});
+app.get('/placeSomethingNotOKmichael', function(req, res) {  
+  res.render('placeSomethingNotOKmichael', { title: 'Do you want to place it page!' })
+});
+app.get('/placeSomethingNotOKsonika', function(req, res) {  
+  res.render('placeSomethingNotOKsonika', { title: 'Do you want to place it page!' })
+});
+app.get('/placeSomethingNotOKtony', function(req, res) {  
+  res.render('placeSomethingNotOKtony', { title: 'Do you want to place it page!' })
+});
+
+app.get('/placeOtherZoneabdullah', function(req, res) {  
+  res.render('placeOtherZoneabdullah', { title: 'Place other zone page!' })
+});
+app.get('/placeOtherZonemichael', function(req, res) {  
+  res.render('placeOtherZonemichael', { title: 'Place other zone page!' })
+});
+app.get('/placeOtherZonesonika', function(req, res) {  
+  res.render('placeOtherZonesonika', { title: 'Place other zone page!' })
+});
+app.get('/placeOtherZonetony', function(req, res) {  
+  res.render('placeOtherZonetony', { title: 'Place other zone page!' })
 });
 
 
@@ -584,6 +638,129 @@ app.get('/stealNEW', function(req, res) {
     fs.createReadStream(path).pipe(res)
   }
 });
-
+app.get('/takeotherzonevideo', function(req, res) {
+  const fs = require('fs');
+  const path = 'videos/takeotherzonevideo.webm'
+  const stat = fs.statSync(path)
+  const fileSize = stat.size
+  const range = req.headers.range
+  if (range) {
+    const parts = range.replace(/bytes=/, "").split("-")
+    const start = parseInt(parts[0], 10)
+    const end = parts[1] 
+      ? parseInt(parts[1], 10)
+      : fileSize-1
+    const chunksize = (end-start)+1
+    const file = fs.createReadStream(path, {start, end})
+    const head = {
+      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': chunksize,
+      'Content-Type': 'video/webm',
+    }
+    res.writeHead(206, head);
+    file.pipe(res);
+  } else {
+    const head = {
+      'Content-Length': fileSize,
+      'Content-Type': 'video/webm',
+    }
+    res.writeHead(200, head)
+    fs.createReadStream(path).pipe(res)
+  }
+});
+app.get('/placeotherzonevideo', function(req, res) {
+  const fs = require('fs');
+  const path = 'videos/placeotherzonevideo.webm'
+  const stat = fs.statSync(path)
+  const fileSize = stat.size
+  const range = req.headers.range
+  if (range) {
+    const parts = range.replace(/bytes=/, "").split("-")
+    const start = parseInt(parts[0], 10)
+    const end = parts[1] 
+      ? parseInt(parts[1], 10)
+      : fileSize-1
+    const chunksize = (end-start)+1
+    const file = fs.createReadStream(path, {start, end})
+    const head = {
+      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': chunksize,
+      'Content-Type': 'video/webm',
+    }
+    res.writeHead(206, head);
+    file.pipe(res);
+  } else {
+    const head = {
+      'Content-Length': fileSize,
+      'Content-Type': 'video/webm',
+    }
+    res.writeHead(200, head)
+    fs.createReadStream(path).pipe(res)
+  }
+});
+app.get('/wrongzonevideo', function(req, res) {
+  const fs = require('fs');
+  const path = 'videos/wrongzonevideo.webm'
+  const stat = fs.statSync(path)
+  const fileSize = stat.size
+  const range = req.headers.range
+  if (range) {
+    const parts = range.replace(/bytes=/, "").split("-")
+    const start = parseInt(parts[0], 10)
+    const end = parts[1] 
+      ? parseInt(parts[1], 10)
+      : fileSize-1
+    const chunksize = (end-start)+1
+    const file = fs.createReadStream(path, {start, end})
+    const head = {
+      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': chunksize,
+      'Content-Type': 'video/webm',
+    }
+    res.writeHead(206, head);
+    file.pipe(res);
+  } else {
+    const head = {
+      'Content-Length': fileSize,
+      'Content-Type': 'video/webm',
+    }
+    res.writeHead(200, head)
+    fs.createReadStream(path).pipe(res)
+  }
+});
+app.get('/placewrongzonevideo', function(req, res) {
+  const fs = require('fs');
+  const path = 'videos/placewrongzonevideo.webm'
+  const stat = fs.statSync(path)
+  const fileSize = stat.size
+  const range = req.headers.range
+  if (range) {
+    const parts = range.replace(/bytes=/, "").split("-")
+    const start = parseInt(parts[0], 10)
+    const end = parts[1] 
+      ? parseInt(parts[1], 10)
+      : fileSize-1
+    const chunksize = (end-start)+1
+    const file = fs.createReadStream(path, {start, end})
+    const head = {
+      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': chunksize,
+      'Content-Type': 'video/webm',
+    }
+    res.writeHead(206, head);
+    file.pipe(res);
+  } else {
+    const head = {
+      'Content-Length': fileSize,
+      'Content-Type': 'video/webm',
+    }
+    res.writeHead(200, head)
+    fs.createReadStream(path).pipe(res)
+  }
+});
 //port connection
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
