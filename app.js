@@ -475,9 +475,9 @@ app.get('/wrongplacevid', function(req, res) {
     fs.createReadStream(path).pipe(res)
   }
 });
-app.get('/stealvid', function(req, res) {
+app.get('/stealNEW', function(req, res) {
   const fs = require('fs');
-  const path = 'videos/stealvid.webm'
+  const path = 'videos/stealNEW.webm'
   const stat = fs.statSync(path)
   const fileSize = stat.size
   const range = req.headers.range

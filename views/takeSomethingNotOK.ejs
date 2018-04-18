@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <style>
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%; 
+      min-height: 100%;
+    }
+  </style>
  <title>Jarvis</title>
  <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
    <script>
@@ -30,7 +39,8 @@
     </script>
   </head>
   <body>
-    <h1>I believe that belongs to {user_name}, did you mean to pick that up? Please respond "Yes" or "No".</h1>
-    <!-- TODO: insert user name of zone owner -->
+    <video id="myVideo" autoplay>
+      <source src="http://localhost:3000/stealNEW" type="video/webm">
+    </video>
   </body>
 </html>
