@@ -6,14 +6,11 @@
      if (annyang) {
        // Let's define a command.
        var commands = {
-         'Yes': function() { 
-            alert('Great! Item successfully placed in zone {zone_number}. I have updated {zone_owner} of the transaction.');
-            //TODO: insert zone number
-            //TODO: update zone owner of transaction
+         'Yes': function() {
+            location.replace('/placeOtherZone');
           }
           'No': function() { 
-            alert('Ok, your zone is zone {number}');
-            //TODO: insert zone number
+            location.replace('/michael');  //TODO: depending on current user, route to that user's page ex: location.replace('/michael');
           }
        };
        // This should be true

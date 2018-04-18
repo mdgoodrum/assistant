@@ -13,16 +13,13 @@
  <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
    <script>
      if (annyang) {
-       // Let's define a command.
+
        var commands = {
-         'Yes': function() { 
-            alert('Great! Item successfully taken from zone {zone_number}. I have updated {zone_owner} of the transaction.');
-            //TODO: insert zone number
-            //TODO: update zone owner of transaction
+         'Yes': function() {
+            location.replace('/takeOtherZone');
           }
           'No': function() { 
-            alert('Ok, your zone is zone {number}');
-            //TODO: insert zone number
+            location.replace('/michael');  //TODO: depending on current user, route to that user's page ex: location.replace('/michael');
           }
        };
        // This should be true

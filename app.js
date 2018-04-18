@@ -24,6 +24,7 @@ var server = net.createServer(function(sock) {
         console.log('2 : ' + sensor2);
         console.log('3 : ' + sensor3);
 
+        //Not allowed action
         //TODO: how to check for user?
         if (currentUser != user1) {  
           if (prevSensor1 - sensor1 > buffer) {
@@ -53,6 +54,7 @@ var server = net.createServer(function(sock) {
             location.replace('/placeNotOK');
           }
         }
+
     });
     
     // Add a 'close' event handler to this instance of socket
@@ -132,6 +134,10 @@ app.get('/abdullahInvalid', function(req, res) {
 app.get('/michaelInvalid', function(req, res) {  
   res.render('michaelInvalid', { title: 'Invalid password page!' })
 });
+app.get('/placeOtherZone', function(req, res) {  
+  res.render('placeOtherZone', { title: 'Place other zone page!' })
+});
+
 
 //video paths
 app.get('/invaliduservideo', function(req, res) {
