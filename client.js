@@ -7,7 +7,7 @@ var net = require('net');
 var client = new net.Socket();
 client.connect(8080, 'localhost', function() {
     console.log('Connected');
-    client.write("{ sensor1:" + sensor1 + ", sensor2:" + sensor2 + ", sensor3:" + sensor3 + "}");
+    client.write('236');
 });
 
 client.on('data', function(data) {

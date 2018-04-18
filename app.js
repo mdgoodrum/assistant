@@ -22,11 +22,23 @@ var server = net.createServer(function(sock) {
     
     // Add a 'data' event handler to this instance of socket
     sock.on('data', function(data) {
+      //Arduino data logic
+      /* 
         console.log('\n\nDATA ' + sock.remoteAddress + ': \n' + data);
         var json = JSON.parse(data.toString().substring("{ sensor1:"));
         var sensor1 = parseInt(json.sensor1);                 //!!!!!! THIS int force IS THE DATA FROM THE SENSOR !!!!!! you should't have to worry about the rest of the stuff going on here
         var sensor2 = parseInt(json.sensor2);
         var sensor3 = parseInt(json.sensor3);
+
+        console.log('\nExtracted Data');
+        console.log('1 : ' + sensor1);
+        console.log('2 : ' + sensor2);
+        console.log('3 : ' + sensor3);
+        */
+       
+       var sensor1 = data.toString().substring(0, 1);
+       var sensor2 = data.toString().substring(1, 2);
+       var sensor3 = data.toString().substring(2, 3);
 
         console.log('\nExtracted Data');
         console.log('1 : ' + sensor1);
