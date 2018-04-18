@@ -3,6 +3,10 @@ var net = require('net');
 var HOST = 'localhost';
 var PORT = 8080;
 
+var prevSensor0 = 0;
+var prevSensor2 = 0;
+var prevSensor3 = 0;
+
 // Create a server instance
 var server = net.createServer(function(sock) {
     
@@ -10,19 +14,32 @@ var server = net.createServer(function(sock) {
     sock.on('data', function(data) {
         console.log('\n\nDATA ' + sock.remoteAddress + ': \n' + data);
         var json = JSON.parse(data.toString().substring("{ sensor0:"));
-        var sensor0 = json.sensor0;
-        var sensor1 = json.sensor1;
+        var sensor1 = parseInt(json.sensor0);                 //!!!!!! THIS int force IS THE DATA FROM THE SENSOR !!!!!! you should't have to worry about the rest of the stuff going on here
+        var sensor2 = parseInt(json.sensor1);
         //var sensor2 = json.sensor2;
-        var sensor3 = json.sensor3;
+        var sensor3 = parseInt(json.sensor3);
 
         console.log('\nExtracted Data');
-        console.log('0 : ' + sensor0);
-        console.log('1 : ' + sensor1);
+        console.log('0 : ' + sensor1);
+        console.log('1 : ' + sensor2);
         //console.log('2 : ' + sensor2);
         console.log('3 : ' + sensor3);
 
-        //var force = parseInt(dataString.substring(dataIndex));     //!!!!!! THIS int force IS THE DATA FROM THE SENSOR !!!!!! you should't have to worry about the rest of the stuff going on here
-        //console.log('\nExtracted data: ' + force.toString());
+        //how to check for user?
+        if (currentUser != user1) {
+          if (prevSensor0 != sensor0) {
+            prevSensor0 = sensor0;
+            location.replace('/michaelInvalid');    //can change pages like this?
+          }
+        } else if (currentUser != user2) {
+          if (prevSensor2 != sensor2) {
+            prevSensor2 = sensor2;
+            location.replace('/sonikaInvalid');
+          }
+        } else if (prevSensor3 != sensor3) {
+          prevSensor3 = sensor3;
+          location.replace('/tonyInvalid');
+        }
     });
     
     // Add a 'close' event handler to this instance of socket
@@ -30,10 +47,10 @@ var server = net.createServer(function(sock) {
         console.log('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
     });
 });
-
 server.listen(PORT, HOST);
-
 console.log('Data server listening on ' + HOST +':'+ PORT);
+
+
 
 
 const express = require('express');
