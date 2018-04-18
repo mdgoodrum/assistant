@@ -1,12 +1,17 @@
 var net = require('net');
 
+const express = require('express');
+const app = express();
+app.set('view engine', 'ejs');
+
 var HOST = 'localhost';
 var PORT = 8080;
 
-var prevSensor1 = 0;
-var prevSensor2 = 0;
-var prevSensor3 = 0;
+var prevSensor1 = 2;
+var prevSensor2 = 9;
+var prevSensor3 = 6;
 var buffer = 5; //TODO: experiment with this buffer val
+
 
 
 //local storage for active user
@@ -45,35 +50,65 @@ var server = net.createServer(function(sock) {
         console.log('2 : ' + sensor2);
         console.log('3 : ' + sensor3);
 
-        //Not allowed action
-        //TODO: how to check for user?
         var currentUser = localStorage.getItem('ActiveUser');
+
+        //Not allowed action
+        
+        //Evaluate Zone 1
         if (currentUser != '1') {  
           if (prevSensor1 - sensor1 > buffer) {
             prevSensor1 = sensor1;
-            //TODO: can add in param for where they took it?
-            res.redirect('/takeSomethingNotOK');    //TODO: can change pages like this?
+            if (currentUser == '2'){
+              res.redirect('/takeSomethingNotOKSonika');    //Micheal TODO
+            } else {
+              res.redirect('/takeSomethingNotOKTony');    //Micheal TODO
+            }
+          
           } else if (sensor1 - prevSensor1 > buffer) {
             prevSensor1 = sensor1;
-            res.redirect('/placeNotOK');
+            if (currentUser == '2'){
+              res.redirect('/placeNotOKSonika');    //Micheal TODO
+            } else {
+              res.redirect('/placeNotOKTony');    //Micheal TODO
+            }
           }
+        
+        //Evaluate Zone 2
         } else if (currentUser != '2') {
           if (prevSensor2 - sensor2 > buffer) {
             prevSensor2 = sensor2;
-            //TODO: can add in param for where they took it?
-            res.redirect('/takeSomethingNotOK');    //TODO: can change pages like this?
+            if (currentUser == '1'){
+              res.redirect('/takeSomethingNotOKMicheal');    //Micheal TODO
+            } else {
+              res.redirect('/takeSomethingNotOKTony');    //Micheal TODO
+            }
+
           } else if (sensor2 - prevSensor2 > buffer) {
             prevSensor2 = sensor2;
-            res.redirect('/placeNotOK');
+            if (currentUser == '1'){
+              res.redirect('/placeNotOKMicheal');    //Micheal TODO
+            } else {
+              res.redirect('/placeNotOKTony');    //Micheal TODO
+            }
           }
+        
+        //Evaluate Zone 3
         } else {
           if (prevSensor3 - sensor3 > buffer) {
             prevSensor3 = sensor3;
-            //TODO: can add in param for where they took it?
-            res.redirect('/takeSomethingNotOK');    //TODO: can change pages like this?
+            if (currentUser == '1'){
+              res.redirect('/takeSomethingNotOKMicheal');    //Micheal TODO
+            } else {
+              res.redirect('/takeSomethingNotOKSonika');    //Micheal TODO
+            }
+
           } else if (sensor3 - prevSensor3 > buffer) {
             prevSensor3 = sensor3;
-            res.redirect('/placeNotOK');
+            if (currentUser == '1'){
+              res.redirect('/placeNotOKMicheal');    //Micheal TODO
+            } else {
+              res.redirect('/placeNotOKSonika');    //Micheal TODO
+            }
           }
         }
 
@@ -86,14 +121,6 @@ var server = net.createServer(function(sock) {
 });
 server.listen(PORT, HOST);
 console.log('Data server listening on ' + HOST +':'+ PORT);
-
-
-const express = require('express');
-const app = express();
-app.set('view engine', 'ejs');
-
-
-
 
 
 //page paths

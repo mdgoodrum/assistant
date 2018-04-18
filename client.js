@@ -7,6 +7,9 @@ var net = require('net');
 var client = new net.Socket();
 client.connect(8080, 'localhost', function() {
     console.log('Connected');
+
+    //trigger user 2 take something not ok
+    client.write('296');
     client.write('236');
 });
 
