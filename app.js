@@ -3,9 +3,10 @@ var net = require('net');
 var HOST = 'localhost';
 var PORT = 8080;
 
-var prevSensor0 = 0;
+var prevSensor1 = 0;
 var prevSensor2 = 0;
 var prevSensor3 = 0;
+var buffer = 5; //TODO: experiment with this buffer val
 
 // Create a server instance
 var server = net.createServer(function(sock) {
@@ -13,32 +14,44 @@ var server = net.createServer(function(sock) {
     // Add a 'data' event handler to this instance of socket
     sock.on('data', function(data) {
         console.log('\n\nDATA ' + sock.remoteAddress + ': \n' + data);
-        var json = JSON.parse(data.toString().substring("{ sensor0:"));
-        var sensor1 = parseInt(json.sensor0);                 //!!!!!! THIS int force IS THE DATA FROM THE SENSOR !!!!!! you should't have to worry about the rest of the stuff going on here
-        var sensor2 = parseInt(json.sensor1);
-        //var sensor2 = json.sensor2;
+        var json = JSON.parse(data.toString().substring("{ sensor1:"));
+        var sensor1 = parseInt(json.sensor1);                 //!!!!!! THIS int force IS THE DATA FROM THE SENSOR !!!!!! you should't have to worry about the rest of the stuff going on here
+        var sensor2 = parseInt(json.sensor2);
         var sensor3 = parseInt(json.sensor3);
 
         console.log('\nExtracted Data');
-        console.log('0 : ' + sensor1);
-        console.log('1 : ' + sensor2);
-        //console.log('2 : ' + sensor2);
+        console.log('1 : ' + sensor1);
+        console.log('2 : ' + sensor2);
         console.log('3 : ' + sensor3);
 
-        //how to check for user?
-        if (currentUser != user1) {
-          if (prevSensor0 != sensor0) {
-            prevSensor0 = sensor0;
-            location.replace('/michaelInvalid');    //can change pages like this?
+        //TODO: how to check for user?
+        if (currentUser != user1) {  
+          if (prevSensor1 - sensor1 > buffer) {
+            prevSensor1 = sensor1;
+            //TODO: can add in param for where they took it?
+            location.replace('/takeSomethingNotOK');    //TODO: can change pages like this?
+          } else if (sensor1 - prevSensor1 > buffer) {
+            prevSensor1 = sensor1;
+            location.replace('/placeNotOK');
           }
         } else if (currentUser != user2) {
-          if (prevSensor2 != sensor2) {
+          if (prevSensor2 - sensor2 > buffer) {
             prevSensor2 = sensor2;
-            location.replace('/sonikaInvalid');
+            //TODO: can add in param for where they took it?
+            location.replace('/takeSomethingNotOK');    //TODO: can change pages like this?
+          } else if (sensor2 - prevSensor2 > buffer) {
+            prevSensor2 = sensor2;
+            location.replace('/placeNotOK');
           }
-        } else if (prevSensor3 != sensor3) {
-          prevSensor3 = sensor3;
-          location.replace('/tonyInvalid');
+        } else {
+          if (prevSensor3 - sensor3 > buffer) {
+            prevSensor3 = sensor3;
+            //TODO: can add in param for where they took it?
+            location.replace('/takeSomethingNotOK');    //TODO: can change pages like this?
+          } else if (sensor3 - prevSensor3 > buffer) {
+            prevSensor3 = sensor3;
+            location.replace('/placeNotOK');
+          }
         }
     });
     
