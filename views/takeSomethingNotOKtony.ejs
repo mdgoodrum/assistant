@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%; 
+      min-height: 100%;
+    }
+  </style>
+ <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+   <script>
+     if (annyang) {
+
+       var commands = {
+         'Yes': function() {
+            location.replace('/takeOtherZonetony');
+          }
+          'No': function() { 
+            location.replace('/tony');  //TODO: depending on current user, route to that user's page ex: location.replace('/michael');
+          }
+       };
+       // This should be true
+       console.log(annyang.isListening())
+       // Add our commands to annyang
+       annyang.addCommands(commands);
+       // Start listening.
+       annyang.start();
+       annyang.addCallback('soundstart', function() {
+         console.log('sound detected');
+       });
+     }
+    </script>
+  </head>
+  <body>
+    <video id="myVideo" autoplay>
+      <source src="http://localhost:3000/wrongzonevideo" type="video/webm">
+    </video>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%; 
+      min-height: 100%;
+    }
+  </style>
+ 
+   <script>
+      function change(arg) {
+        location.replace('/michael');  //TODO: depending on current user, route to that user's page ex: location.replace('/michael');
+      }
+
+      setTimeout(change, 9000); //TODO: UPDATE BASED ON VIDEO
+    
+    </script>
+  </head>
+  <body>
+    
+    <video id="myVideo" autoplay>
+      <source src="http://localhost:3000/placeotherzonevideo" type="video/webm">
+    </video>
+  </body>
+</html>
