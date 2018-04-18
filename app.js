@@ -9,10 +9,20 @@ var server = net.createServer(function(sock) {
     // Add a 'data' event handler to this instance of socket
     sock.on('data', function(data) {
         console.log('\n\nDATA ' + sock.remoteAddress + ': \n' + data);
-        var dataString = data.toString();
-        var dataIndex = dataString.indexOf("data:") + "data:".length;
-        var force = parseInt(dataString.substring(dataIndex));     //!!!!!! THIS int force IS THE DATA FROM THE SENSOR !!!!!! you should't have to worry about the rest of the stuff going on here
-        console.log('\nExtracted data: ' + force.toString());
+        var json = JSON.parse(data.toString().substring("{ sensor0:"));
+        var sensor0 = json.sensor0;
+        var sensor1 = json.sensor1;
+        //var sensor2 = json.sensor2;
+        var sensor3 = json.sensor3;
+
+        console.log('\nExtracted Data');
+        console.log('0 : ' + sensor0);
+        console.log('1 : ' + sensor1);
+        //console.log('2 : ' + sensor2);
+        console.log('3 : ' + sensor3);
+
+        //var force = parseInt(dataString.substring(dataIndex));     //!!!!!! THIS int force IS THE DATA FROM THE SENSOR !!!!!! you should't have to worry about the rest of the stuff going on here
+        //console.log('\nExtracted data: ' + force.toString());
     });
     
     // Add a 'close' event handler to this instance of socket
